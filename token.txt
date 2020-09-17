@@ -1,0 +1,1 @@
+<place your bot's token in here, just the token, no quotes>
