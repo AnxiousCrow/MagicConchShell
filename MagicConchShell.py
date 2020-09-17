@@ -62,39 +62,39 @@ async def on_message(message):
     matches = ['mcs', 'shell', 'conch', 'bot']
     if any(x in message.content.lower() for x in matches):
         time.sleep(1)
-        if random.randint(0, 100) <= 5:
+        if random.randint(0, 99) <= 5:
             await message.add_reaction(discord.utils.get(message.guild.emojis, name='MCS'))
 
     matches = ['haha', 'lol']
     if any(x in message.content.lower() for x in matches):
         time.sleep(1)
-        if random.randint(0, 100) <= 5:
+        if random.randint(0, 99) <= 5:
             await message.add_reaction(discord.utils.get(message.guild.emojis, name='lol'))
 
     matches = ['psyonix']
     if any(x in message.content.lower() for x in matches):
         time.sleep(1)
-        if random.randint(0, 100) <= 10:
+        if random.randint(0, 99) <= 10:
             await message.add_reaction(discord.utils.get(message.guild.emojis, name='WWWAAAA'))
 
     matches = ['ok', 'sounds good', 'nice!', 'cool!', 'hop on', 'back on']
     if any(x in message.content.lower() for x in matches):
         time.sleep(1)
-        if random.randint(0, 100) <= 5:
+        if random.randint(0, 99) <= 5:
             await message.add_reaction(discord.utils.get(message.guild.emojis, name='hooookay'))
 
     matches = [':(', '):', 'noo', 'sorry', "i don't think so",
                ' f ', 'rip', 'sad', "can't", "won't", 'maybe later', 'maybe someday']
     if any(x in message.content.lower() for x in matches):
         time.sleep(1)
-        if random.randint(0, 100) <= 5:
+        if random.randint(0, 99) <= 5:
             await message.add_reaction(discord.utils.get(message.guild.emojis, name='sads'))
 
     matches = ['upload']
     if any(x in message.content.lower() for x in matches):
         time.sleep(1)
-        # if random.randint(0, 100) <= 50:
-        await message.add_reaction(discord.utils.get(message.guild.emojis, name='bruhwack'))
+        if random.randint(0, 99) <= 25:
+            await message.add_reaction(discord.utils.get(message.guild.emojis, name='bruhwack'))
 
     # This line allows on_message and commands
     await client.process_commands(message)
