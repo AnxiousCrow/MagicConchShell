@@ -7,6 +7,7 @@ client = commands.Bot(command_prefix='$')
 
 # Have to change this path for Linux
 token = open(r'.\token.txt', 'r').read()
+# token = open(r'/home/ubuntu/Discord/MagicConchShell/token.txt', 'r').read()
 
 status_list = [
     'beep boop beep',
@@ -44,7 +45,10 @@ ConchShellResponses = [
 #     'hooookay'
 # ]
 
-# On Bot start-up
+
+#############################
+# Start-up command
+#############################
 @client.event
 async def on_ready():
     print(f'{client.user} bot ready!')
@@ -52,6 +56,9 @@ async def on_ready():
     change_status.start()
 
 
+#############################
+# Message specifics
+#############################
 @client.event
 async def on_message(message):
     # Adds Bread reaction to random message
@@ -100,35 +107,53 @@ async def on_message(message):
     await client.process_commands(message)
 
 
+##########################################################
+# looping command
 # Changes the bot's game status every x minutes
+##########################################################
 @tasks.loop(minutes=30)
 async def change_status():
     await client.change_presence(activity=discord.Game(name=random.choice(status_list)))
 
 
+#############################
+# ping command
+#############################
 @client.command(help="$ping")
 async def ping(ctx):
     await ctx.send(f'Bot latency: {round(client.latency * 1000)}ms')
 
 
+#############################
+# mcs command
+#############################
 @client.command(help="$mcs [Yes or No question]", aliases=['magicconchshell', 'conch', 'conchshell', 'magicshell', 'shell', 'MCS'])
 async def mcs(ctx, *, question):
     time.sleep(1)
     await ctx.send(random.choice(ConchShellResponses))
 
 
+#############################
+# percent command
+#############################
 @client.command(help="$percent [what percentage is x?]", aliases=['whatpercent'])
 async def percent(ctx, *, question):
     time.sleep(1)
     await ctx.send(f'{random.randint(0, 100)}%')
 
 
+#############################
+# price command
+#############################
 @client.command(help="$price [how much is x worth?]")
 async def price(ctx, *, question):
     time.sleep(1)
     await ctx.send(f'${random.randint(0, 60)}.{"%02d" % random.randint(0, 99)}')
 
 
+#############################
+# game command
+#############################
 @client.command(help="$game [Name of Game]")
 async def game(ctx, *arg):
     gamename = ''
@@ -138,6 +163,9 @@ async def game(ctx, *arg):
     await client.change_presence(activity=discord.Game(name=gamename))
 
 
+#############################
+# slap command
+#############################
 @client.command(help="$slap [name]")
 async def slap(ctx, *, arg):
     time.sleep(1)
