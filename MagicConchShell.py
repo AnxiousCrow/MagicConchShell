@@ -6,8 +6,8 @@ import time
 client = commands.Bot(command_prefix='$')
 
 # Have to change this path for Linux
-token = open(r'.\token.txt', 'r').read()
-# token = open(r'/home/ubuntu/Discord/MagicConchShell/token.txt', 'r').read()
+# token = open(r'.\token.txt', 'r').read()
+token = open(r'/home/ubuntu/Discord/MagicConchShell/token.txt', 'r').read()
 
 status_list = [
     'beep boop beep',
@@ -20,7 +20,9 @@ status_list = [
     'NameError: GameNotFound',
     '001100 010010 011110 100001 101101 110011',
     "Wii Sports Resort",
-    "Mario Kart"
+    "Mario Kart",
+    'Fallout 4',
+    'Hollow Knight: Silksong (devbuild 0.91.12)'
 ]
 
 ConchShellResponses = [
@@ -111,7 +113,7 @@ async def on_message(message):
 # looping command
 # Changes the bot's game status every x minutes
 ##########################################################
-@tasks.loop(minutes=30)
+@tasks.loop(minutes=120)
 async def change_status():
     await client.change_presence(activity=discord.Game(name=random.choice(status_list)))
 
@@ -154,6 +156,13 @@ async def price(ctx, *, question):
 #############################
 # game command
 #############################
+def log_game(gamename):
+    # log_path = r'.\LogGames.txt'
+    log_path = r'/home/ubuntu/Discord/MagicConchShell/LogGames.txt'
+    with open(log_path, 'a') as log_file:
+        log_file.write(gamename + '\n')
+
+
 @client.command(help="$game [Name of Game]")
 async def game(ctx, *arg):
     gamename = ''
@@ -161,6 +170,7 @@ async def game(ctx, *arg):
         gamename += i + " "
     await ctx.send(f'Now playing {gamename}')
     await client.change_presence(activity=discord.Game(name=gamename))
+    log_game(gamename)
 
 
 #############################
