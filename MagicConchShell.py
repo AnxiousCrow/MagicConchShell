@@ -35,6 +35,19 @@ ConchShellResponses = [
     "Try asking again."
 ]
 
+sus_list = [
+    'yea.. they sus',
+    'they super sus, bro',
+    'mhmm, sus',
+    'oh yeah, sus',
+    'super sus...',
+    'not sus, they good',
+    'nah, not sus',
+    'not sus at all, bro',
+    'they good, no sus here',
+    'no sus found'
+]
+
 # emotes = [
 #     'MCS',
 #     'DeleteThis',
@@ -136,6 +149,15 @@ async def mcs(ctx, *, question):
 
 
 #############################
+# sus command
+#############################
+@client.command(aliases=['sus?'])
+async def sus(ctx):
+    time.sleep(1)
+    await ctx.send(random.choice(sus_list))
+
+
+#############################
 # percent command
 #############################
 @client.command(help="$percent [what percentage is x?]", aliases=['whatpercent'])
@@ -179,6 +201,10 @@ async def game(ctx, *arg):
 @client.command(help="$slap [name]")
 async def slap(ctx, *, arg):
     time.sleep(1)
+
+    # matches = ['mcs', 'yourself', 'magic', 'conch', 'shell']
+    # if any(x in arg.lower() for x in matches):
+
     if 'mcs' in arg.lower() or 'yourself' in arg.lower() or 'the' in arg.lower() or 'magic' in arg.lower() or 'conch' in arg.lower() or 'shell' in arg.lower():
         await ctx.send(f':raised_hand: *Slap!* {ctx.author} has been punished for trying to be smart.')
     else:
