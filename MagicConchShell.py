@@ -151,7 +151,7 @@ async def mcs(ctx, *, question):
 #############################
 # sus command
 #############################
-@client.command(aliases=['sus?'])
+@client.command(help='$sus [the sus]', aliases=['sus?'])
 async def sus(ctx):
     time.sleep(1)
     await ctx.send(random.choice(sus_list))
