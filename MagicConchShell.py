@@ -211,4 +211,39 @@ async def slap(ctx, *, arg):
         await ctx.send(f':raised_hand: *Slap!* {arg} has been punished.')
 
 
+#############################
+# dice command
+#############################
+@client.command(help='$dice 3d18 (This will roll 3 dice with 18 sides)')
+async def dice(ctx, *, arg):
+
+    arg = arg.lower()
+
+    if 'd' in arg:
+        dice_params_lst = arg.split('d')
+        num_of_dice = int(dice_params_lst[0])
+        num_of_sides = int(dice_params_lst[1])
+
+        if num_of_dice <= 0 or num_of_sides <= 0:
+            await ctx.send(f'```{arg} : you must use positive intergers.```')
+            return
+
+        roll_lst = []
+        for _ in range(num_of_dice):
+            roll_lst.append(random.randint(1, num_of_sides))
+
+        await ctx.send(f'```{arg} {roll_lst}```')
+    else:
+        await ctx.send(f'"{arg}" is not valid syntax.')
+        await ctx.send('To roll 3 dice with 18 sides:\n```$dice 3d18```')
+
+
+#############################
+# die command
+#############################
+@client.command(help='$die (This automatically rolls a 1d6)')
+async def die(ctx):
+    roll = random.randint(1, 6)
+    await ctx.send(f'```1d6 [{roll}]```')
+
 client.run(token)
