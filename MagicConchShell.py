@@ -2,7 +2,9 @@ import discord
 from discord.ext import commands, tasks
 import random
 import time
+from time import gmtime, strftime
 
+start_time = time.time()
 client = commands.Bot(command_prefix='$')
 
 # Have to change this path for Linux
@@ -22,7 +24,9 @@ status_list = [
     "Wii Sports Resort",
     "Mario Kart",
     'Fallout 4',
-    'Hollow Knight: Silksong (devbuild 0.91.12)'
+    'Hollow Knight: Silksong (devbuild 0.91.12)',
+    'Among Us',
+    'Breath of the Wild 2'
 ]
 
 ConchShellResponses = [
@@ -84,38 +88,38 @@ async def on_message(message):
     matches = ['mcs', 'shell', 'conch', 'bot']
     if any(x in message.content.lower() for x in matches):
         time.sleep(1)
-        if random.randint(0, 99) < 5:
+        if random.randint(0, 99) < 50:
             await message.add_reaction(discord.utils.get(message.guild.emojis, name='MCS'))
 
     matches = ['haha', 'lol']
     if any(x in message.content.lower() for x in matches):
         time.sleep(1)
-        if random.randint(0, 99) < 5:
+        if random.randint(0, 99) < 25:
             await message.add_reaction(discord.utils.get(message.guild.emojis, name='lol'))
 
     matches = ['psyonix']
     if any(x in message.content.lower() for x in matches):
         time.sleep(1)
-        if random.randint(0, 99) < 10:
+        if random.randint(0, 99) < 50:
             await message.add_reaction(discord.utils.get(message.guild.emojis, name='WWWAAAA'))
 
     matches = ['ok', 'sounds good', 'nice!', 'cool!', 'hop on', 'back on']
     if any(x in message.content.lower() for x in matches):
         time.sleep(1)
-        if random.randint(0, 99) < 5:
+        if random.randint(0, 99) < 25:
             await message.add_reaction(discord.utils.get(message.guild.emojis, name='hooookay'))
 
     matches = [':(', '):', 'noo', 'sorry', "i don't think so",
                ' f ', 'rip', 'sad', "can't", "won't", 'maybe later', 'maybe someday']
     if any(x in message.content.lower() for x in matches):
         time.sleep(1)
-        if random.randint(0, 99) < 5:
+        if random.randint(0, 99) < 25:
             await message.add_reaction(discord.utils.get(message.guild.emojis, name='sads'))
 
     matches = ['upload']
     if any(x in message.content.lower() for x in matches):
         time.sleep(1)
-        if random.randint(0, 99) < 25:
+        if random.randint(0, 99) < 50:
             await message.add_reaction(discord.utils.get(message.guild.emojis, name='bruhwack'))
 
     # This line allows on_message and commands
@@ -137,6 +141,19 @@ async def change_status():
 @client.command(help="$ping")
 async def ping(ctx):
     await ctx.send(f'Bot latency: {round(client.latency * 1000)}ms')
+
+
+#############################
+# uptime command
+#############################
+def get_uptime():
+    end_time = time.time()
+    return(strftime("%H:%M:%S",gmtime(int('{:.0f}'.format(float(str((end_time-start_time))))))))
+
+
+@client.command(help="$uptime")
+async def uptime(ctx):
+    await ctx.send(f'Uptime: {get_uptime()}')
 
 
 #############################
@@ -178,11 +195,11 @@ async def price(ctx, *, question):
 #############################
 # game command
 #############################
-def log_game(gamename):
+def log_game(gamename, user):
     # log_path = r'.\LogGames.txt'
     log_path = r'/home/ubuntu/Discord/MagicConchShell/LogGames.txt'
     with open(log_path, 'a') as log_file:
-        log_file.write(gamename + '\n')
+        log_file.write(gamename + " " + user + '\n')
 
 
 @client.command(help="$game [Name of Game]")
@@ -192,7 +209,7 @@ async def game(ctx, *arg):
         gamename += i + " "
     await ctx.send(f'Now playing {gamename}')
     await client.change_presence(activity=discord.Game(name=gamename))
-    log_game(gamename)
+    log_game(gamename, str(ctx.author))
 
 
 #############################
