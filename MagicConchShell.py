@@ -1,15 +1,18 @@
 import discord
 from discord.ext import commands, tasks
+import nacl
+import ffmpeg.audio
 import random
 import time
+import asyncio
 from time import gmtime, strftime
 
 start_time = time.time()
 client = commands.Bot(command_prefix='$')
 
 # Have to change this path for Linux
-# token = open(r'.\token.txt', 'r').read()
-token = open(r'/home/ubuntu/Discord/MagicConchShell/token.txt', 'r').read()
+token = open(r'.\token.txt', 'r').read()
+# token = open(r'/home/ubuntu/Discord/MagicConchShell/token.txt', 'r').read()
 
 status_list = [
     'beep boop beep',
@@ -197,13 +200,13 @@ async def on_message(message):
         matches = ['mcs', 'shell', 'conch', 'bot']
         if any(x in message.content.lower() for x in matches):
             time.sleep(1)
-            if random.randint(0, 99) < 10:
+            if random.randint(0, 99) < 5:
                 await message.add_reaction(discord.utils.get(message.guild.emojis, name='MCS'))
 
         matches = ['haha', 'lol']
         if any(x in message.content.lower() for x in matches):
             time.sleep(1)
-            if random.randint(0, 99) < 10:
+            if random.randint(0, 99) < 5:
                 await message.add_reaction(discord.utils.get(message.guild.emojis, name='lol'))
 
         matches = ['psyonix']
@@ -215,14 +218,14 @@ async def on_message(message):
         matches = ['ok', 'sounds good', 'nice!', 'cool!', 'hop on', 'back on']
         if any(x in message.content.lower() for x in matches):
             time.sleep(1)
-            if random.randint(0, 99) < 10:
+            if random.randint(0, 99) < 5:
                 await message.add_reaction(discord.utils.get(message.guild.emojis, name='hooookay'))
 
         matches = [':(', '):', 'noo', 'sorry', "i don't think so",
                    ' f ', 'rip', 'sad', "can't", "won't", 'maybe later', 'maybe someday']
         if any(x in message.content.lower() for x in matches):
             time.sleep(1)
-            if random.randint(0, 99) < 10:
+            if random.randint(0, 99) < 5:
                 await message.add_reaction(discord.utils.get(message.guild.emojis, name='sads'))
 
         matches = ['upload']
@@ -343,8 +346,8 @@ async def price_handler(ctx, error):
 # game command
 #############################
 def log_game(gamename, user):
-    # log_path = r'.\LogGames.txt'
-    log_path = r'/home/ubuntu/Discord/MagicConchShell/LogGames.txt'
+    log_path = r'.\LogGames.txt'
+    # log_path = r'/home/ubuntu/Discord/MagicConchShell/LogGames.txt'
     with open(log_path, 'a') as log_file:
         log_file.write(gamename + " " + user + '\n')
 
@@ -484,6 +487,42 @@ async def feed_handler(ctx, error):
     time.sleep(1)
     # if isinstance(error, commands.MissingRequiredArgument):
     await ctx.send("You didn't tell me who to feed...")
+
+
+#############################
+# sprite cranberry command
+#############################
+@client.command(help='$sprite', aliases=['s'])
+async def sprite(ctx):
+
+    channel = ctx.author.voice.channel
+    print(channel)
+
+    if channel == None:
+        await ctx.send("You are not in a voice channel...")
+    else:
+        vc = await channel.connect()
+        vc.play(discord.FFmpegPCMAudio('/home/ubuntu/Discord/MagicConchShell/SpriteCranberry.mp3'), after=lambda e: print('done', e))
+        await asyncio.sleep(2.5)
+        await vc.disconnect()
+
+
+#############################
+# wow command
+#############################
+@client.command(help='$wow (Oh my God, WOW!)')
+async def wow(ctx):
+
+    channel = ctx.author.voice.channel
+    print(channel)
+
+    if channel == None:
+        await ctx.send("You are not in a voice channel...")
+    else:
+        vc = await channel.connect()
+        vc.play(discord.FFmpegPCMAudio('/home/ubuntu/Discord/MagicConchShell/wow.mp3'), after=lambda e: print('done', e))
+        await asyncio.sleep(6.5)
+        await vc.disconnect()
 
 
 client.run(token)
