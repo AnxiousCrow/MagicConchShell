@@ -11,8 +11,8 @@ start_time = time.time()
 client = commands.Bot(command_prefix='$')
 
 # Have to change this path for Linux
-token = open(r'.\token.txt', 'r').read()
-# token = open(r'/home/ubuntu/Discord/MagicConchShell/token.txt', 'r').read()
+# token = open(r'.\token.txt', 'r').read()
+token = open(r'/home/ubuntu/Discord/MagicConchShell/token.txt', 'r').read()
 
 status_list = [
     'beep boop beep',
@@ -294,7 +294,7 @@ async def mcs_handler(ctx, error):
 @client.command(help='$sus [the sus]', aliases=['sus?', 'howsus', 'howsus?'])
 async def sus(ctx, *, arg):
     time.sleep(1)
-    
+
     matches = ['mcs', 'yourself', 'magic', 'conch', 'shell', 'i']
     # $sus mcs
     if any(x in arg.lower() for x in matches) or str(arg) == '<@!754734227651690526>':
@@ -346,8 +346,8 @@ async def price_handler(ctx, error):
 # game command
 #############################
 def log_game(gamename, user):
-    log_path = r'.\LogGames.txt'
-    # log_path = r'/home/ubuntu/Discord/MagicConchShell/LogGames.txt'
+    # log_path = r'.\LogGames.txt'
+    log_path = r'/home/ubuntu/Discord/MagicConchShell/LogGames.txt'
     with open(log_path, 'a') as log_file:
         log_file.write(gamename + " " + user + '\n')
 
@@ -381,7 +381,7 @@ async def slap(ctx, *, arg):
     if any(x in arg.lower() for x in matches) or str(arg) == '<@!754734227651690526>':
         await ctx.send(f':raised_hand: *Slap!* {ctx.author.mention} has been punished for trying to be smart.')
         return
-    
+
     # $slap me
     if any(x in arg.lower() for x in matches2):
         await ctx.send(f':raised_hand: *Slap!* {ctx.author.mention} has been punished.')
@@ -496,33 +496,69 @@ async def feed_handler(ctx, error):
 async def sprite(ctx):
 
     channel = ctx.author.voice.channel
-    print(channel)
+    # print(channel)
+    time.sleep(.5)
 
-    if channel == None:
-        await ctx.send("You are not in a voice channel...")
-    else:
-        vc = await channel.connect()
-        vc.play(discord.FFmpegPCMAudio('/home/ubuntu/Discord/MagicConchShell/SpriteCranberry.mp3'), after=lambda e: print('done', e))
-        await asyncio.sleep(2.5)
-        await vc.disconnect()
+    vc = await channel.connect()
+    vc.play(discord.FFmpegPCMAudio('/home/ubuntu/Discord/MagicConchShell/audio/SpriteCranberry.mp3'), after=lambda e: print('done', e))
+    await asyncio.sleep(2.5)
+    await vc.disconnect()
+
+
+# on_error
+@sprite.error
+async def sprite_handler(ctx, error):
+    time.sleep(.5)
+    # if isinstance(error, commands.MissingRequiredArgument):
+    await ctx.send("You are not in a voice channel...")
 
 
 #############################
 # wow command
 #############################
-@client.command(help='$wow (Oh my God, WOW!)')
+@client.command(help='$wow (Oh my God, WOW!)', aliases=['WOW'])
 async def wow(ctx):
 
     channel = ctx.author.voice.channel
-    print(channel)
+    # print(channel)
+    time.sleep(.5)
 
-    if channel == None:
-        await ctx.send("You are not in a voice channel...")
-    else:
-        vc = await channel.connect()
-        vc.play(discord.FFmpegPCMAudio('/home/ubuntu/Discord/MagicConchShell/wow.mp3'), after=lambda e: print('done', e))
-        await asyncio.sleep(6.5)
-        await vc.disconnect()
+    vc = await channel.connect()
+    vc.play(discord.FFmpegPCMAudio('/home/ubuntu/Discord/MagicConchShell/audio/wow.mp3'), after=lambda e: print('done', e))
+    await asyncio.sleep(6.5)
+    await vc.disconnect()
+
+
+# on_error
+@wow.error
+async def wow_handler(ctx, error):
+    time.sleep(.5)
+    # if isinstance(error, commands.MissingRequiredArgument):
+    await ctx.send("You are not in a voice channel...")
+
+
+#############################
+# RL command
+#############################
+@client.command(help='$RL', aliases=['rl'])
+async def RL(ctx):
+
+    channel = ctx.author.voice.channel
+    # print(channel)
+    time.sleep(.5)
+
+    vc = await channel.connect()
+    vc.play(discord.FFmpegPCMAudio('/home/ubuntu/Discord/MagicConchShell/audio/ThisIsRocketLeague.mp3'), after=lambda e: print('done', e))
+    await asyncio.sleep(2)
+    await vc.disconnect()
+
+
+# on_error
+@RL.error
+async def RL_handler(ctx, error):
+    time.sleep(.5)
+    # if isinstance(error, commands.MissingRequiredArgument):
+    await ctx.send("You are not in a voice channel...")
 
 
 client.run(token)
