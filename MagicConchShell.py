@@ -1,3 +1,4 @@
+import os
 import discord
 from discord.ext import commands, tasks
 import nacl
@@ -501,6 +502,7 @@ async def sprite(ctx):
 
     vc = await channel.connect()
     vc.play(discord.FFmpegPCMAudio('/home/ubuntu/Discord/MagicConchShell/audio/SpriteCranberry.mp3'), after=lambda e: print('done', e))
+    # vc.play(discord.FFmpegPCMAudio(r'.\audio\SpriteCranberry.mp3'), after=lambda e: print('done', e))
     await asyncio.sleep(2.5)
     await vc.disconnect()
 
@@ -525,6 +527,7 @@ async def wow(ctx):
 
     vc = await channel.connect()
     vc.play(discord.FFmpegPCMAudio('/home/ubuntu/Discord/MagicConchShell/audio/wow.mp3'), after=lambda e: print('done', e))
+    # vc.play(discord.FFmpegPCMAudio(r'.\audio\wow.mp3'), after=lambda e: print('done', e))
     await asyncio.sleep(6.5)
     await vc.disconnect()
 
@@ -549,6 +552,7 @@ async def RL(ctx):
 
     vc = await channel.connect()
     vc.play(discord.FFmpegPCMAudio('/home/ubuntu/Discord/MagicConchShell/audio/ThisIsRocketLeague.mp3'), after=lambda e: print('done', e))
+    # vc.play(discord.FFmpegPCMAudio(r'.\audio\ThisIsRocketLeague.mp3'), after=lambda e: print('done', e))
     await asyncio.sleep(2)
     await vc.disconnect()
 
@@ -558,6 +562,39 @@ async def RL(ctx):
 async def RL_handler(ctx, error):
     time.sleep(.5)
     # if isinstance(error, commands.MissingRequiredArgument):
+    await ctx.send("You are not in a voice channel...")
+
+
+#############################
+# Wii Sports command
+#############################
+@client.command(help='$wii', aliases=['Wii', 'WII'])
+async def wii(ctx):
+
+    channel = ctx.author.voice.channel
+    # print(channel)
+    time.sleep(.5)
+
+    vc = await channel.connect()
+
+    # Get random Wii mp3
+    # path = ".\\audio\\wii\\"
+    path = '/home/ubuntu/Discord/MagicConchShell/audio/memes/Wii/'
+    mp3 = random.choice(os.listdir(path))
+    print(path + mp3)
+
+    vc.play(discord.FFmpegPCMAudio(path + mp3), after=lambda e: print('done', e))
+    await asyncio.sleep(3)
+    await vc.disconnect()
+
+
+# on_error
+@wii.error
+async def wii_handler(ctx, error):
+    time.sleep(.5)
+    # if isinstance(error, discord.ClientException):
+        # await ctx.send("I am already in a voice channel...")
+    # if isinstance(error, discord.AttributeError):
     await ctx.send("You are not in a voice channel...")
 
 
